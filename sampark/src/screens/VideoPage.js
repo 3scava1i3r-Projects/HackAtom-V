@@ -13,7 +13,7 @@ export default class VideoPage extends React.Component{
            <View style={style.container}>
                <StatusBar backgroundColor="#f58084"/>
                <Video
-                source={require('../videos/maintro.mp4')}
+                //source={require('../videos/')}
                 rate={1.0}
                 isMuted={false}
                 resizeMode="cover"

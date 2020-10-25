@@ -12,7 +12,10 @@ export default class role_select extends React.Component{
           >
 
 
-          <View>
+          <View style={{
+            alignItems:"center",
+            marginTop:250
+          }}>
             <TouchableOpacity
                  onPress={()=>this.props.navigation.navigate('')}
                  style={{
@@ -38,7 +41,10 @@ export default class role_select extends React.Component{
             </TouchableOpacity>
           </View>
 
-          <View>
+          <View style={{
+            alignItems:"center"
+
+          }}>
             <TouchableOpacity
                  onPress={()=>this.props.navigation.navigate('')}
                  style={{
@@ -64,7 +70,10 @@ export default class role_select extends React.Component{
             </TouchableOpacity>
           </View>
 
-          <View>
+          <View style={{
+            alignItems:"center"
+
+          }}>
             <TouchableOpacity
                  onPress={()=>this.props.navigation.navigate('')}
                  style={{
@@ -90,7 +99,10 @@ export default class role_select extends React.Component{
             </TouchableOpacity>
           </View>
 
-          <View>
+          <View style={{
+            alignItems:"center"
+
+          }}>
             <TouchableOpacity
                  onPress={()=>this.props.navigation.navigate('')}
                  style={{

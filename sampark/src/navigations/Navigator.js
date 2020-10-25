@@ -14,11 +14,12 @@ const stackNavigatorOptions ={
 }
 const AppNavigator = createStackNavigator({
     Home:{screen:Home},
-    Cources:{screen:Cources},
+    Contracts:{screen:Contracts},
     Xd:{screen:Xd},
     VideoPage:{screen:VideoPage},
     make_contract:{screen:make_contract},
-    role_select:{screen:role_select}
+    role_select:{screen:role_select},
+    Bid:{screen:Bid}
 
 
 },

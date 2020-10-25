@@ -13,7 +13,7 @@ export default class Home extends React.Component{
                <ScrollView>
                    <View style={{
                        width:"100%",
-                       alignItems:"center",
+                       alignItems:"flex-end",
                        paddingHorizontal:20
                    }}>
                        <View style={{
@@ -21,6 +21,7 @@ export default class Home extends React.Component{
                            paddingVertical:12,
                            borderRadius:10,
                            marginTop:30,
+                           alignItems:"flex-end",
                            backgroundColor:"#d1a0a7"
                        }}>
                            <Image
@@ -43,7 +44,7 @@ export default class Home extends React.Component{
                          alignItems:'center'
                        }}>
                            <TouchableOpacity
-                                onPress={()=>this.props.navigation.navigate('')}
+                                onPress={()=>this.props.navigation.navigate('Welcome')}
                                 style={{
                                     flexDirection:"row",
                                     backgroundColor:"#f58084",
@@ -72,7 +73,7 @@ export default class Home extends React.Component{
                          alignItems:'center'
                        }}>
                      <TouchableOpacity
-                          onPress={()=>this.props.navigation.navigate('')}
+                          onPress={()=>this.props.navigation.navigate('role_select')}
                           style={{
                               flexDirection:"row",
                               backgroundColor:"#f58084",
@@ -101,7 +102,7 @@ export default class Home extends React.Component{
                      alignItems:'center'
                    }}>
                      <TouchableOpacity
-                          onPress={()=>this.props.navigation.navigate('')}
+                          onPress={()=>this.props.navigation.navigate('Contracts')}
                           style={{
                               flexDirection:"row",
                               backgroundColor:"#f58084",

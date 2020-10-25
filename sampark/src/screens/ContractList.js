@@ -1,5 +1,5 @@
 import React from 'react'
-import {Text,TouchableOpacity, View,Image} from 'react-native'
+import {Text,TouchableOpacity,Button, View,Image} from 'react-native'
 import ProgressCircle from 'react-native-progress-circle'
 
 
@@ -41,6 +41,16 @@ export default class ContractList extends React.Component{
                              Click for more...
                          </Text>
                     </View>
+                    <ProgressCircle
+                        percent={30}
+                        radius={17}
+                        borderWidth={1.5}
+                        color="f580084"
+                        shadowColor="#FFF"
+                        bgColor="#FFF"
+                      >
+
+                    </ProgressCircle>
 
 
                     <ProgressCircle
