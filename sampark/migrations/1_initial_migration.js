@@ -1,5 +1,5 @@
-const Migrations = artifacts.require("Migrations");
+const Sampark = artifacts.require("Sampark");
 
 module.exports = function (deployer) {
-  deployer.deploy(Migrations);
+  deployer.deploy(Sampark);
 };
