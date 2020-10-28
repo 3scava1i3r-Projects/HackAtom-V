@@ -1,0 +1,118 @@
+{
+  "_from": "skynet-js",
+  "_id": "skynet-js@2.1.1",
+  "_inBundle": false,
+  "_integrity": "sha512-XZER4zwLPygV19asr5GcXpKx70MUNAWRjRPwLBpbIhbu95pvXiREfdvX5wfXgVzVVC3F1E9066dc+MMKwV6gHw==",
+  "_location": "/skynet-js",
+  "_phantomChildren": {
+    "base64-js": "1.3.1",
+    "follow-redirects": "1.13.0",
+    "ieee754": "1.2.1",
+    "querystringify": "2.2.0",
+    "requires-port": "1.0.0"
+  },
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "skynet-js",
+    "name": "skynet-js",
+    "escapedName": "skynet-js",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/skynet-js/-/skynet-js-2.1.1.tgz",
+  "_shasum": "49736105fc239db0af3423945abf36aebcdf6351",
+  "_spec": "skynet-js",
+  "_where": "/home/escavalier/Documents/Cosmos/HackAtom-V/sampark",
+  "author": {
+    "name": "Karol Wypchlo"
+  },
+  "bugs": {
+    "url": "https://github.com/NebulousLabs/skynet-js/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "@babel/runtime": "^7.11.2",
+    "@types/node-forge": "^0.9.5",
+    "axios": "^0.20.0",
+    "blakejs": "^1.1.0",
+    "buffer": "^5.6.0",
+    "node-forge": "^0.10.0",
+    "path-browserify": "^1.0.1",
+    "url-join": "^4.0.1",
+    "url-parse": "^1.4.7"
+  },
+  "deprecated": false,
+  "description": "Sia Skynet Javascript Client",
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-typescript": "^7.10.4",
+    "@types/jest": "^26.0.14",
+    "@types/node": "^14.11.2",
+    "@types/url-join": "^4.0.0",
+    "@types/url-parse": "^1.4.3",
+    "@typescript-eslint/eslint-plugin": "^4.3.0",
+    "@typescript-eslint/parser": "^4.3.0",
+    "axios-mock-adapter": "^1.18.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "eslint": "^7.8.1",
+    "husky": "^4.3.0",
+    "jest": "^26.4.2",
+    "lint-staged": "^10.3.0",
+    "prettier": "^2.1.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.0.3"
+  },
+  "files": [
+    "dist/*"
+  ],
+  "homepage": "https://nebulouslabs.github.io/skynet-js/",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "jest": {
+    "testTimeout": 60000,
+    "clearMocks": true,
+    "rootDir": "src"
+  },
+  "keywords": [
+    "sia",
+    "skynet"
+  ],
+  "license": "ISC",
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --ext .ts --fix",
+      "tsc --esModuleInterop --noemit",
+      "prettier --write"
+    ],
+    "*.{json,yml,md}": [
+      "prettier --write"
+    ]
+  },
+  "main": "dist/index.js",
+  "name": "skynet-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NebulousLabs/skynet-js.git"
+  },
+  "scripts": {
+    "build": "rimraf dist && babel src --out-dir dist --extensions .ts --ignore src/**/*.test.ts && tsc --project tsconfig.build.json",
+    "lint:eslint": "eslint --ext .ts utils src",
+    "lint:tsc": "tsc",
+    "prepublishOnly": "yarn build",
+    "test": "jest"
+  },
+  "version": "2.1.1"
+}
