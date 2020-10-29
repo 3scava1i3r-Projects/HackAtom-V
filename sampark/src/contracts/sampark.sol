@@ -13,7 +13,7 @@ contract Sampark is ERC721 , Ownable {
     using SafeMath for uint16;
 
 
-    event NewArt( uint256 token_id, string name , string skylink , address curOwnerAdd);
+    event NewArt( uint256 token_id,  string skylink , address curOwnerAdd);
 
     // Global Variable now
 
@@ -24,16 +24,19 @@ contract Sampark is ERC721 , Ownable {
 
     struct Art {
         uint256 token_id;
-        string name;
+    //  string name;
         string skylink;
         address curOwnerAdd;
     }
 
+
     Art[] public  allartwork;
+    uint256 assetCount = allartwork.length;
 
     mapping (string => bool) _artwork_exist;
     mapping (uint256 => address) public ArtToOwner;
     mapping (string => uint256) public NeedTokenId;
+    mapping (uint256 => Art) public asset;
     // Constructor
 
     constructor() ERC721("Art","ART") public {
@@ -41,22 +44,23 @@ contract Sampark is ERC721 , Ownable {
     }
     // mint function to create new tokens
 
-      function CreateArt(string memory _artwork, string memory Name) public {
+      function CreateArt(string memory _artwork) public {
+        // , string memory Name
 // returns(uint256 _token_id, string memory _name,string memory _skylink, address _curOwnerAdd)
       require(!_artwork_exist[_artwork]);
-      require(bytes(_artwork).length > 0);
-      require(bytes(Name).length > 0);
+      // require(bytes(allartwork).length > 0);
+    //  require(bytes(Name).length > 0);
       require(msg.sender!=address(0));
 
       uint256 id = allartwork.length;
-      allartwork.push(Art(id,Name, _artwork, msg.sender));
+      allartwork.push(Art(id, _artwork, msg.sender));
 
       ArtToOwner[id] = msg.sender;
       NeedTokenId[_artwork] = id;
-      emit NewArt(id, Name ,_artwork,  msg.sender );
       // uint256 _id = art_work.push(_artwork);
        // uint _id = allartwork.push(Art(Name, msg.sender , _artwork));
-
+       asset[id] = Art(id, _artwork , msg.sender );
+       emit NewArt(id,_artwork,  msg.sender );
 
       // allartwork.push(Art(Name, msg.sender , _artwork));
 

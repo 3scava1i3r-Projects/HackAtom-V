@@ -1,13 +1,13 @@
+import Sampark from "./abis/Sampark.json";
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import Web3 from 'web3';
 import  { SkynetClient }  from "./skynet-js";
 // import CryptoJS from "./crypto-js";
-import Portis from '../node_modules/@portis/web3';
+//import Portis from '../node_modules/@portis/web3';
 import swal from '@sweetalert/with-react';
-import Sampark from "./abis/Sampark.json";
 import './App.css';
-import {Navbar , Card , Button, Jumbotron , Container}from 'react-bootstrap';
+import {Navbar , Card , Button, Jumbotron , Container} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './fileUpload.js';
 
@@ -15,11 +15,13 @@ import './fileUpload.js';
 //skylink new cliennt
 const client = new SkynetClient();
 
+
+
 class App extends Component {
 
   async componentWillMount() {
     await this.loadWeb3()
-
+    await this.loadBlockchainData()
   }
 
   async loadWeb3() {
@@ -35,31 +37,34 @@ class App extends Component {
     }
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      account: '',
-      Sampark: null,
-    }
-  }
+
 
 
   async loadBlockchainData() {
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
-
+    //console.log(accounts[0])
     const networkId = await web3.eth.net.getId()
     const networkData = Sampark.networks[networkId]
 
 
     if(networkData) {
-      const Sampark = new web3.eth.Contract(Sampark.abi, networkData.address)
-      this.setState({ Sampark })
+      const sampark = new web3.eth.Contract(Sampark.abi, networkData.address)
+      this.setState({ sampark })
+      const assetCount = await this.state.Sampark.methods.assetCount().call()
+      this.setState({ assetCount })
+
     } else{
       window.alert('Incorrect Network')
     }
 
+    for (var i = 1; i <= assetCount ; i++) {
+      const asset = await Sampark.methods.asset(i).call()
+      this.setState({
+        assets: [...this.state.asset, asset]
+      })
+    }
   }
 
 //
@@ -90,8 +95,8 @@ class App extends Component {
     reader.readAsArrayBuffer(file)
 
     reader.onloadend = () => {
-      this.setState({ buffer: Buffer(reader.result) })
-      console.log('buffer', this.state.buffer)
+    this.setState({ buffer: Buffer(reader.result) })
+    console.log('buffer', this.state.buffer)
     }
   }
 
@@ -100,9 +105,28 @@ class App extends Component {
       const client = new SkynetClient("https://siasky.net/");
       const  skylink  = await client.uploadFile(this.state.buffer);
       console.log(skylink)
+
+      const web3 = window.web3
+      const accounts = await web3.eth.getAccounts()
+      const n = await this.state.sampark.methods.CreateArt(skylink).send({from : accounts[0]})
+      const l = n.transactionHash
+      console.log(l)
     } catch (error) {
       console.log(error)
     }
+  }
+
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      account: '',
+      sampark: null,
+      assets: [],
+    }
+
+    this.ArtUpload = this.ArtUpload.bind(this)
+    this.captureFile = this.captureFile.bind(this)
   }
 
 render(){
@@ -142,26 +166,16 @@ render(){
 
                   <form onSubmit={(event) => {
                     event.preventDefault()
-                    const description = this.imageDescription.value
-                    this.ArtUpload(description)
+                //    const description = this.imageDescription.value
+                    this.ArtUpload()
                   }} >
                     <input type='file' accept=".jpg, .jpeg, .png, .bmp, .gif" onChange={this.captureFile} />
                       <div className="form-group mr-sm-2">
                         <br></br>
-                          <input
-                            id="imageDescription"
-                            type="text"
-                            ref={(input) => { this.imageDescription = input }}
-                            className="form-control"
-                            placeholder="Image description..."
-                            required />
-                      </div>
-                    <button type="submit" class="btn btn-primary btn-block btn-lg" onClick={this.ArtUpload}>Upload!</button>
+
+                       </div>
+                    <button type="submit" className="btn btn-primary btn-block btn-lg" onClick={this.ArtUpload}>Upload!</button>
                     </form>
-
-
-
-
                  </div>
               </main>
             </div>
