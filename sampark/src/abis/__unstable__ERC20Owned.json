@@ -9318,7 +9318,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.1",
-  "updatedAt": "2020-10-28T09:05:42.847Z",
+  "updatedAt": "2020-10-29T11:12:57.244Z",
   "devdoc": {
     "details": "An ERC20 token owned by another contract, which has minting permissions and can use transferFrom to receive anyone's tokens. This contract is an internal helper for GSNRecipientERC20Fee, and should not be used outside of this context.",
     "kind": "dev",

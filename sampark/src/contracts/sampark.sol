@@ -13,7 +13,7 @@ contract Sampark is ERC721 , Ownable {
     using SafeMath for uint16;
 
 
-    event NewArt( string name , string skylink , address curOwnerAdd);
+    event NewArt( uint256 token_id, string name , string skylink , address curOwnerAdd);
 
     // Global Variable now
 
@@ -23,7 +23,7 @@ contract Sampark is ERC721 , Ownable {
     // address ;
 
     struct Art {
-        // uint256 token_id;
+        uint256 token_id;
         string name;
         string skylink;
         address curOwnerAdd;
@@ -33,6 +33,7 @@ contract Sampark is ERC721 , Ownable {
 
     mapping (string => bool) _artwork_exist;
     mapping (uint256 => address) public ArtToOwner;
+    mapping (string => uint256) public NeedTokenId;
     // Constructor
 
     constructor() ERC721("Art","ART") public {
@@ -40,13 +41,19 @@ contract Sampark is ERC721 , Ownable {
     }
     // mint function to create new tokens
 
-     function CreateArt(string memory _artwork, string memory Name) public {
+      function CreateArt(string memory _artwork, string memory Name) public {
 // returns(uint256 _token_id, string memory _name,string memory _skylink, address _curOwnerAdd)
       require(!_artwork_exist[_artwork]);
-      allartwork.push(Art(Name, _artwork, msg.sender));
+      require(bytes(_artwork).length > 0);
+      require(bytes(Name).length > 0);
+      require(msg.sender!=address(0));
+
       uint256 id = allartwork.length;
+      allartwork.push(Art(id,Name, _artwork, msg.sender));
+
       ArtToOwner[id] = msg.sender;
-      emit NewArt(Name ,_artwork,  msg.sender );
+      NeedTokenId[_artwork] = id;
+      emit NewArt(id, Name ,_artwork,  msg.sender );
       // uint256 _id = art_work.push(_artwork);
        // uint _id = allartwork.push(Art(Name, msg.sender , _artwork));
 
@@ -84,16 +91,18 @@ contract Sampark is ERC721 , Ownable {
     // }
 
 
-    function buy(address from , address to, uint256 token_id) private {
-      _transfer( from,  to,  token_id);
-      ArtToOwner[token_id] = to;
+    function buy(address from , address to, string memory skylink) private {
+
+
+      _transfer( from,  to,  NeedTokenId[skylink]);
+      ArtToOwner[NeedTokenId[skylink]] = to;
 
     }
 
-    function checkOwner(uint256 _token_id) public view  returns (address) {
+    function checkOwner(string memory skylink) public view  returns (address) {
 
-      ownerOf(_token_id);
-      return ArtToOwner[_token_id];
+      ownerOf(NeedTokenId[skylink]);
+      return ArtToOwner[NeedTokenId[skylink]];
     }
 
     // function _transfer(address _from, address _to, uint256 _token_id) private override {
