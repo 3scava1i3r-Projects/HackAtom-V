@@ -46,3 +46,8 @@ Check my presentation for better understanding https://docs.google.com/presentat
     <br> this will start the server locally at port 3000
 - connect your metamask with your account provided with ethermint node using ethermint [docs](https://docs.ethermint.zone/guides/metamask.html)
 - open your browser to interact with the platform  
+- connect to custom rpc 8545 or make one if it is not there
+- use this command to get your private key(just a dummy account here but you should not tell this to anyone)
+  <br>`ethermintcli keys unsafe-export-eth-key mykey`<br>
+- use this private key and import it into metamask now you are ready to upload files and also get them on your personal ethermint node
+
