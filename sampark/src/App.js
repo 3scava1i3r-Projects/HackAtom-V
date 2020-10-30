@@ -37,12 +37,6 @@ const abi = [
       },
       {
         "indexed": false,
-        "internalType": "string",
-        "name": "description",
-        "type": "string"
-      },
-      {
-        "indexed": false,
         "internalType": "address payable",
         "name": "author",
         "type": "address"
@@ -86,11 +80,6 @@ const abi = [
         "type": "string"
       },
       {
-        "internalType": "string",
-        "name": "description",
-        "type": "string"
-      },
-      {
         "internalType": "address payable",
         "name": "author",
         "type": "address"
@@ -120,11 +109,6 @@ const abi = [
         "internalType": "string",
         "name": "_imgHash",
         "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_description",
-        "type": "string"
       }
     ],
     "name": "uploadImage",
@@ -132,7 +116,7 @@ const abi = [
     "stateMutability": "nonpayable",
     "type": "function"
   }
-]
+];
 
 class App extends Component {
 
@@ -162,7 +146,7 @@ class App extends Component {
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
-    console.log(accounts)
+    console.log(accounts[0])
     const networkId = await web3.eth.net.getId()
     const networkData = memorial.networks[networkId]
 
@@ -173,7 +157,7 @@ class App extends Component {
       this.setState({ imagesCount })
 
       for (var i = 1; i <= imagesCount ; i++) {
-        const asset = await memorial.methods.images(i-1).call()
+        const asset = await memorial.methods.images(i).call()
         this.setState({
           images: [...this.state.images, asset]
         })
@@ -226,10 +210,10 @@ class App extends Component {
       const gg  = await client.uploadFile(this.state.buffer);
       const skylink = gg.slice(4,);
       console.log(skylink)
-
+      swal(skylink)
       const web3 = window.web3
       const accounts = await web3.eth.getAccounts()
-      const n = await this.state.memorial.methods.uploadImage(skylink , 'hello').send({from : accounts[0]})
+      const n = await this.state.memorial.methods.uploadImage(skylink).send({from : accounts[0]})
       const l = n.transactionHash
       console.log(l)
     } catch (error) {
@@ -237,18 +221,6 @@ class App extends Component {
     }
   }
 
-async PaymentForSupport(){
-    try {
-
-      web3.eth.sendTransaction(
-        from:accounts[],
-        to:{image.author}
-      )
-    }
-    catch (error) {
-      console.log(error)
-    }
-}
 
 
 
@@ -286,10 +258,9 @@ render(){
 
         <Jumbotron fluid>
         <Container>
-          <h1>Fluid jumbotron</h1>
+          <h1>Memorial Service</h1>
           <p>
-            This is a modified jumbotron that occupies the entire horizontal space of
-            its parent.
+            The Platform to connect you with your touching past memories with the use of skynet and ethermint.
           </p>
         </Container>
       </Jumbotron>
@@ -303,69 +274,80 @@ render(){
                   <form onSubmit={(event) => {
                     event.preventDefault()
                 //    const description = this.imageDescription.value
-                  //  this.ArtUpload()
+                //    this.ArtUpload()
                   }} >
                     <input type='file' accept=".jpg, .jpeg, .png, .bmp, .gif" onChange={this.captureFile} />
                       <div className="form-group mr-sm-2">
                         <br></br>
 
                        </div>
-                    <button type="submit" className="btn btn-primary btn-block btn-lg" onClick={this.ArtUpload}>Upload!</button>
+                    <button type="submit" className="btn btn-primary btn-block btn-lg" onClick={this.ArtUpload()}>Upload!</button>
                     </form>
                  </div>
               </main>
             </div>
           </div>
 
-            <p>&nbsp;</p>  <p>&nbsp;</p>
-
-
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
 
 
             {
               this.state.images.map((image,key) => {
                 return(
 
+                  <div className="container-fluid mt-5">
+                      <div className="row">
+                        <main role="sub" className="col-lg-12 d-flex text-center">
+                          <div className="content mr-auto ml-auto">
+                            <Card style={{
+                             width: '30rem',
+                             margin: '2rem',
+                           }}>
+                              <Card.Img variant="top" src={`https://siasky.net/${image.hash}` }/>
+                              <Card.Body>
+                                <Card.Title>{image.description}</Card.Title>
+                                <Card.Text>
+                                {image.author}
+                                <br />
+                              
 
-                  <div className="row">
-                    <div className="col-md-3" align="center">
-                      <Card style={{
-                       width: '18rem',
-                       margin: '3rem',
-                       padding: '2rem'
-                     }}>
-                        <Card.Img variant="top" src={`https://siasky.net/${image.hash}`}/>
-                        <Card.Body>
-                          <Card.Title>{image.description}</Card.Title>
-                          <Card.Text>
-                          {image.author}
+                                </Card.Text>
+                                <Button variant="primary btn-block btn-lg">
+                                  Support them
+                                </Button>
+                              </Card.Body>
+                            </Card>
 
-
-                          </Card.Text>
-                          <Button variant="primary"
-                            onClick={
-                              try {
-
-                                web3.eth.sendTransaction(
-                                  from:accounts[],
-                                  to:{image.author}
-                                )
-                              }
-                              catch (error) {
-                                console.log(error)
-                              }
-
-
-                            }>
-                            Support them
-                          </Button>
-                        </Card.Body>
-                    </Card>
+                          </div>
+                        </main>
+                      </div>
                     </div>
 
 
 
-                  </div>
+                  // <div className="container-fluid">
+                  //   <div className="flex">
+                  //     <Card style={{
+                  //      width: '20rem',
+                  //      margin: '15rem',
+                  //    }}>
+                  //       <Card.Img variant="top" src={`https://siasky.net/${image.hash}`}/>
+                  //       <Card.Body>
+                  //         <Card.Title>{image.description}</Card.Title>
+                  //         <Card.Text>
+                  //         {image.author}
+                  //         <br />
+                  //
+                  //
+                  //         </Card.Text>
+                  //         <Button variant="primary btn-block btn-lg">
+                  //           Support them
+                  //         </Button>
+                  //       </Card.Body>
+                  //     </Card>
+                  //   </div>
+                  // </div>
 
 
 
