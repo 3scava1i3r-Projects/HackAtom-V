@@ -4,7 +4,7 @@ This repository is for HackAtom-V Hackathon
 
 ## sampark
 
-Losing a loved one is like having the rug swept from under you. We make plans for the day, and do not think twice about how those plans can be taken away in the blink of an eye. I never thought much about it myself, until I was faced with the shock, and undeniable truth of my uncle’s death. I do not think anyone really thinks about tragedy until they are actually faced with shocking news. It is amazing how we take life for granted. The tragedy never goes away. You just learn how to cope with it and keep moving on.
+Losing a loved one is like having the rug swept from under you. We make plans for the day, and do not think twice about how those plans can be taken away in the blink of an eye. I never thought much about it myself, until I was faced with the shock, and undeniable truth of death. I do not think anyone really thinks about tragedy until they are actually faced with shocking news. It is amazing how we take life for granted. The tragedy never goes away. You just learn how to cope with it and keep moving on.
 
 So this project is to endorse the connections or Sampark(in hindi) that you have with people around you.You can add a bunch of images just to showcase your work,meme , anger or any cool image over at our platform.Everything is backed up by decentralised systems.This is more like a memorial for your future with all the data backed up by blockchain.The storage used here is Skynet(decentralised storage solution) for more information about skynet visit [Skynet](https://siasky.net/)
 
