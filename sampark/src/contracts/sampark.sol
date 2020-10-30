@@ -13,7 +13,7 @@ contract Sampark is ERC721 , Ownable {
     using SafeMath for uint16;
 
 
-    event NewArt( uint256 token_id,  string skylink , address curOwnerAdd);
+    event NewArt( uint256 token_id, string name, string skylink , address curOwnerAdd);
 
     // Global Variable now
 
@@ -24,7 +24,7 @@ contract Sampark is ERC721 , Ownable {
 
     struct Art {
         uint256 token_id;
-    //  string name;
+        string name;
         string skylink;
         address curOwnerAdd;
     }
@@ -44,24 +44,24 @@ contract Sampark is ERC721 , Ownable {
     }
     // mint function to create new tokens
 
-      function CreateArt(string memory _artwork) public {
+      function CreateArt(string memory _artwork , string memory Name) public {
         // , string memory Name
-// returns(uint256 _token_id, string memory _name,string memory _skylink, address _curOwnerAdd)
+        // returns(uint256 _token_id, string memory _name,string memory _skylink, address _curOwnerAdd)
       require(!_artwork_exist[_artwork]);
       // require(bytes(allartwork).length > 0);
     //  require(bytes(Name).length > 0);
       require(msg.sender!=address(0));
 
       uint256 id = allartwork.length;
-      allartwork.push(Art(id, _artwork, msg.sender));
+      allartwork.push(Art(id, Name ,_artwork, msg.sender));
 
       ArtToOwner[id] = msg.sender;
       NeedTokenId[_artwork] = id;
       // uint256 _id = art_work.push(_artwork);
        // uint _id = allartwork.push(Art(Name, msg.sender , _artwork));
-       asset[id] = Art(id, _artwork , msg.sender );
-       emit NewArt(id,_artwork,  msg.sender );
-
+       asset[id] = Art(id, Name,_artwork , msg.sender );
+       emit NewArt(id, Name ,_artwork,  msg.sender );
+       _safeMint(msg.sender , id);
       // allartwork.push(Art(Name, msg.sender , _artwork));
 
       // _mint(msg.sender, _artwork);
@@ -114,5 +114,7 @@ contract Sampark is ERC721 , Ownable {
     //   ArtToOwner[_token_id] = _to;
     //   emit Transfer(_from, _to, _token_id);
     // }
-
+    function Supply() public view returns (uint256){
+      totalSupply();
+    }
   }

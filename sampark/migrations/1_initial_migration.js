@@ -1,5 +1,5 @@
-const Sampark = artifacts.require("Sampark");
+const memorial = artifacts.require("memorial");
 
 module.exports = function (deployer) {
-  deployer.deploy(Sampark);
+  deployer.deploy(memorial);
 };

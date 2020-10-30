@@ -1,10 +1,9 @@
-import Sampark from "./abis/Sampark.json";
+// import Sampark from "./abis/Sampark.json";
+import memorial from "./abis/memorial.json";
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import Web3 from 'web3';
 import  { SkynetClient }  from "./skynet-js";
-// import CryptoJS from "./crypto-js";
-//import Portis from '../node_modules/@portis/web3';
 import swal from '@sweetalert/with-react';
 import './App.css';
 import {Navbar , Card , Button, Jumbotron , Container} from 'react-bootstrap';
@@ -12,10 +11,128 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './fileUpload.js';
 
 
+
 //skylink new cliennt
 const client = new SkynetClient();
-
-
+const abi = [
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "hash",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "address payable",
+        "name": "author",
+        "type": "address"
+      }
+    ],
+    "name": "ImageCreated",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "imageCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "images",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "hash",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "internalType": "address payable",
+        "name": "author",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "name",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_imgHash",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_description",
+        "type": "string"
+      }
+    ],
+    "name": "uploadImage",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
 
 class App extends Component {
 
@@ -33,7 +150,8 @@ class App extends Component {
       window.web3 = new Web3(window.web3.currentProvider)
     }
     else {
-      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+
+      swal("Non-Ethereum browser detected", "You should consider trying MetaMask!", "warning");
     }
   }
 
@@ -44,27 +162,29 @@ class App extends Component {
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
-    //console.log(accounts[0])
+    console.log(accounts)
     const networkId = await web3.eth.net.getId()
-    const networkData = Sampark.networks[networkId]
-
+    const networkData = memorial.networks[networkId]
 
     if(networkData) {
-      const sampark = new web3.eth.Contract(Sampark.abi, networkData.address)
-      this.setState({ sampark })
-      const assetCount = await this.state.Sampark.methods.assetCount().call()
-      this.setState({ assetCount })
+      const memorial = new web3.eth.Contract( abi, networkData.address)
+      this.setState({ memorial })
+      const imagesCount = await memorial.methods.imageCount().call()
+      this.setState({ imagesCount })
+
+      for (var i = 1; i <= imagesCount ; i++) {
+        const asset = await memorial.methods.images(i-1).call()
+        this.setState({
+          images: [...this.state.images, asset]
+        })
+      }
+      console.log(this.state.images)
 
     } else{
-      window.alert('Incorrect Network')
+      swal("Incorrect Chain", "Try reconnecting", "warning");
     }
 
-    for (var i = 1; i <= assetCount ; i++) {
-      const asset = await Sampark.methods.asset(i).call()
-      this.setState({
-        assets: [...this.state.asset, asset]
-      })
-    }
+
   }
 
 //
@@ -103,12 +223,13 @@ class App extends Component {
   async ArtUpload() {
     try {
       const client = new SkynetClient("https://siasky.net/");
-      const  skylink  = await client.uploadFile(this.state.buffer);
+      const gg  = await client.uploadFile(this.state.buffer);
+      const skylink = gg.slice(4,);
       console.log(skylink)
 
       const web3 = window.web3
       const accounts = await web3.eth.getAccounts()
-      const n = await this.state.sampark.methods.CreateArt(skylink).send({from : accounts[0]})
+      const n = await this.state.memorial.methods.uploadImage(skylink , 'hello').send({from : accounts[0]})
       const l = n.transactionHash
       console.log(l)
     } catch (error) {
@@ -116,14 +237,29 @@ class App extends Component {
     }
   }
 
+async PaymentForSupport(){
+    try {
+
+      web3.eth.sendTransaction(
+        from:accounts[],
+        to:{image.author}
+      )
+    }
+    catch (error) {
+      console.log(error)
+    }
+}
+
+
 
   constructor(props) {
     super(props)
     this.state = {
       account: '',
-      sampark: null,
-      assets: [],
-    }
+      memorial: null,
+      images:[],
+
+      }
 
     this.ArtUpload = this.ArtUpload.bind(this)
     this.captureFile = this.captureFile.bind(this)
@@ -138,7 +274,7 @@ render(){
             <Navbar.Brand href="#home">
               <img
                 alt=""
-                src="require(./logo.png)"
+                src="https://cdn0.iconfinder.com/data/icons/digital-nomad-freelancer-aqua-vol-1/500/Good_Internet-512.png"
                 width="30"
                 height="30"
                 className="d-inline-block align-top"
@@ -167,7 +303,7 @@ render(){
                   <form onSubmit={(event) => {
                     event.preventDefault()
                 //    const description = this.imageDescription.value
-                    this.ArtUpload()
+                  //  this.ArtUpload()
                   }} >
                     <input type='file' accept=".jpg, .jpeg, .png, .bmp, .gif" onChange={this.captureFile} />
                       <div className="form-group mr-sm-2">
@@ -181,58 +317,63 @@ render(){
             </div>
           </div>
 
-        <div className="body">
-          <div className="row">
-            <Card style={{
-               width: '18rem',
-               margin: '3rem',
-               padding: '2rem'
-             }}>
-                <Card.Img variant="top" src="./logo.png" />
-                <Card.Body>
-                  <Card.Title>Card Title</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of
-                    the card's content.
-                  </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
-            </Card>
+            <p>&nbsp;</p>  <p>&nbsp;</p>
 
-            <Card style={{
-               width: '18rem',
-               margin: '3rem',
-               padding: '2rem'
-             }}>
-                <Card.Img variant="top" src="./logo.png" />
-                <Card.Body>
-                  <Card.Title>Card Title</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of
-                    the card's content.
-                  </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
-            </Card>
 
-            <Card style={{
-               width: '18rem',
-               margin: '3rem',
-               padding: '2rem'
-             }}>
-                <Card.Img variant="top" src="./logo.png" />
-                <Card.Body>
-                  <Card.Title>Card Title</Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of
-                    the card's content.
-                  </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
-            </Card>
 
-          </div>
-        </div>
+
+            {
+              this.state.images.map((image,key) => {
+                return(
+
+
+                  <div className="row">
+                    <div className="col-md-3" align="center">
+                      <Card style={{
+                       width: '18rem',
+                       margin: '3rem',
+                       padding: '2rem'
+                     }}>
+                        <Card.Img variant="top" src={`https://siasky.net/${image.hash}`}/>
+                        <Card.Body>
+                          <Card.Title>{image.description}</Card.Title>
+                          <Card.Text>
+                          {image.author}
+
+
+                          </Card.Text>
+                          <Button variant="primary"
+                            onClick={
+                              try {
+
+                                web3.eth.sendTransaction(
+                                  from:accounts[],
+                                  to:{image.author}
+                                )
+                              }
+                              catch (error) {
+                                console.log(error)
+                              }
+
+
+                            }>
+                            Support them
+                          </Button>
+                        </Card.Body>
+                    </Card>
+                    </div>
+
+
+
+                  </div>
+
+
+
+                  )
+                }
+              )
+            }
+
       </div>
     );
   }
