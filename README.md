@@ -8,11 +8,19 @@ Losing a loved one is like having the rug swept from under you. We make plans fo
 
 So this project is to endorse the connections or Sampark(in hindi) that you have with people around you.You can add a bunch of images just to showcase your work,meme , anger or any cool image over at our platform.Everything is backed up by decentralised systems.This is more like a memorial for your future with all the data backed up by blockchain.The storage used here is Skynet(decentralised storage solution) for more information about skynet visit [Skynet](https://siasky.net/)
 
+Check my presentation for better understanding https://docs.google.com/presentation/d/1Bry3jIaKwDlSeyPnC9T6NJkDeIG-f3-mjUDGzZ4kb1M/edit?usp=sharing
 ## Tech Stack
 
-- Reactjs
-- Ethermint 
+
+- Solidity
+- Ethermint
+- Metamask
+- Truffle Suite
+- React Js
 - Skynet
+- Web3js
+- React-Bootstrap
+
 
 ## Prerequisites
 
