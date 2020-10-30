@@ -2,7 +2,7 @@
 This repository is for HackAtom-V Hackathon
 
 
-## sampark
+## sampark & memorial
 
 Losing a loved one is like having the rug swept from under you. We make plans for the day, and do not think twice about how those plans can be taken away in the blink of an eye. I never thought much about it myself, until I was faced with the shock, and undeniable truth of death. I do not think anyone really thinks about tragedy until they are actually faced with shocking news. It is amazing how we take life for granted. The tragedy never goes away. You just learn how to cope with it and keep moving on.
 
