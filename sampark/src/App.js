@@ -209,8 +209,8 @@ class App extends Component {
       const client = new SkynetClient("https://siasky.net/");
       const gg  = await client.uploadFile(this.state.buffer);
       const skylink = gg.slice(4,);
-      console.log(skylink)
-      swal(skylink)
+      // console.log(skylink)
+      // swal("Good job!", "Save this!" + {skylink}, "success");
       const web3 = window.web3
       const accounts = await web3.eth.getAccounts()
       const n = await this.state.memorial.methods.uploadImage(skylink).send({from : accounts[0]})
@@ -310,7 +310,7 @@ render(){
                                 <Card.Text>
                                 {image.author}
                                 <br />
-                              
+
 
                                 </Card.Text>
                                 <Button variant="primary btn-block btn-lg">
